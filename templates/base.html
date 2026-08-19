@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InterviewIQ AI — AI-Powered Interview Preparation</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+        --dark-bg: #0b1120;             /* Deep Indigo-Black */
+        --dark-card: #111a2e;           /* Rich Dark Indigo */
+        --primary-vibrant: #60a5fa;      /* Lighter Sky Blue */
+        --primary-vibrant-dim: rgba(96, 165, 250, 0.1);
+        --accent-glow: #10b981;          /* Emerald Green for states */
+        --text-main: #f1f5f9;           /* Nearly White */
+        --text-muted: #94a3b8;          /* Soft Gray-Blue */
+        --primary-gradient: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+        --accent-gradient: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    }
+
+    body {
+        font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+        background-color: var(--dark-bg);
+        color: var(--text-main);
+        letter-spacing: -0.011em; /* Tighter leading for modern feel */
+    }
+
+    /* -----------------------------------------------------------
+       Navigation Bar (Modernized Glassmorphism)
+    ----------------------------------------------------------- */
+    .navbar {
+        background: rgba(17, 26, 46, 0.9) !important;
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+    }
+
+    .navbar-brand {
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Slight texture */
+    }
+
+    /* -----------------------------------------------------------
+       Main Card Container Styling (Modern Dark Mode)
+    ----------------------------------------------------------- */
+    .interview-card {
+        background-color: var(--dark-card);
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        border-radius: 20px;
+        box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5); /* Deep shadow for pop */
+    }
+
+    /* -----------------------------------------------------------
+       Form Elements (Inputs, Textareas, Choose File)
+    ----------------------------------------------------------- */
+    .form-control {
+        background-color: #0b1120 !important; /* Slightly darker input bg */
+        border: 1px solid rgba(148, 163, 184, 0.2);
+        color: var(--text-main) !important;
+        border-radius: 10px;
+        padding: 0.8rem 1rem;
+    }
+
+    .form-control::placeholder {
+        color: rgba(148, 163, 184, 0.5); /* Subtle placeholder */
+    }
+
+    /* Input Focus State (Glowing Blue Accent) */
+    .form-control:focus {
+        background-color: #0b1120 !important;
+        border-color: var(--primary-vibrant);
+        box-shadow: 0 0 0 4px var(--primary-vibrant-dim);
+        color: var(--text-main) !important;
+    }
+
+    /* Customizing the "Choose File" Button appearance */
+    .form-control::-webkit-file-upload-button {
+        background: var(--primary-vibrant-dim);
+        color: var(--primary-vibrant);
+        border: none;
+        padding: 0.5rem 1rem;
+        margin-right: 10px;
+        border-radius: 8px;
+        font-weight: 600;
+        transition: background 0.2s ease;
+    }
+
+    .form-control::-webkit-file-upload-button:hover {
+        background: rgba(96, 165, 250, 0.2);
+    }
+
+    /* -----------------------------------------------------------
+       Modern Button Styles (Gradient & Hover Effects)
+    ----------------------------------------------------------- */
+    /* Secondary (Listen) Outline Button */
+    .btn-outline-primary {
+        border-color: rgba(96, 165, 250, 0.5);
+        color: var(--primary-vibrant);
+        font-weight: 600;
+        transition: all 0.2s ease;
+    }
+
+    .btn-outline-primary:hover {
+        background-color: var(--primary-vibrant-dim);
+        border-color: var(--primary-vibrant);
+        color: var(--primary-vibrant);
+        transform: translateY(-1px);
+    }
+
+    /* Primary Gradient Submit Button */
+    .btn-gradient-primary {
+        background: var(--primary-gradient);
+        color: #ffffff;
+        border: none;
+        border-radius: 12px;
+        font-weight: 700;
+        padding: 0.8rem;
+        letter-spacing: -0.01em;
+        transition: transform 0.1s ease, box-shadow 0.2s ease;
+        box-shadow: 0 4px 14px 0 rgba(59, 130, 246, 0.3); /* Subtle blue glow */
+    }
+
+    .btn-gradient-primary:hover {
+        box-shadow: 0 6px 20px 0 rgba(59, 130, 246, 0.5); /* Intensified blue glow */
+        transform: translateY(-2px);
+    }
+
+    /* -----------------------------------------------------------
+       Interview Question Cards (Internal Boxes)
+    ----------------------------------------------------------- */
+    .question-card {
+        background-color: #0d1425; /* Darker interior card */
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        border-radius: 16px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        transition: border-color 0.2s ease;
+    }
+
+    /* Subtle focus state when typing inside a question card */
+    .question-card:focus-within {
+        border-color: var(--primary-vibrant);
+    }
+
+    /* -----------------------------------------------------------
+       Recording Feature Indicators (Pulsing Red)
+    ----------------------------------------------------------- */
+    .badge-recording {
+        animation: pulse-red-glow 1.5s infinite;
+        background-color: #ef4444; /* Bright Red */
+        box-shadow: 0 0 10px rgba(239, 68, 68, 0.5); /* Soft red glow */
+    }
+
+    @keyframes pulse-red-glow {
+        0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.8); }
+        70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(239, 68, 68, 0); }
+        100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+    }
+
+    /* Minor utility classes for text */
+    .text-muted { color: var(--text-muted) !important; }
+    </style>
+</head>
+<body class="d-flex flex-column min-vh-100">
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light mb-4 shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fs-4" href="/">🚀 InterviewIQ AI</a>
+        </div>
+    </nav>
+
+    <!-- Main Content Block -->
+    <main class="container flex-grow-1">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center py-5">
+    <div class="col-md-9 col-lg-8 col-xl-7">
+        <!-- New Class: interview-card -->
+        <div class="card interview-card p-4 p-md-5">
+            
+            <div class="text-center mb-5">
+                <h1 class="fw-extrabold mb-2" style="letter-spacing: -0.03em;">Welcome to InterviewIQ AI</h1>
+                <p class="text-muted fs-5">Upload your resume to begin a custom, AI-powered mock interview.</p>
+            </div>
+
+            <form action="/start-interview" method="POST" enctype="multipart/form-data">
+                
+                <div class="mb-4">
+                    <label for="fullName" class="form-label fw-semibold text-muted mb-2">FULL NAME</label>
+                    <input type="text" class="form-control" id="fullName" name="name" required placeholder="John Doe">
+                </div>
+
+                <div class="mb-4">
+                    <label for="emailAddress" class="form-label fw-semibold text-muted mb-2">EMAIL ADDRESS</label>
+                    <input type="email" class="form-control" id="emailAddress" name="email" required placeholder="john@example.com">
+                </div>
+
+                <div class="mb-5">
+                    <label for="resumeFile" class="form-label fw-semibold text-muted mb-2">UPLOAD RESUME (PDF)</label>
+                    <input type="file" class="form-control" id="resumeFile" name="resume" accept=".pdf" required>
+                </div>
+
+                <!-- New Class: btn-gradient-primary -->
+                <button type="submit" class="btn btn-gradient-primary w-100 fs-6 shadow mt-2">
+                    Start Mock Interview Session →
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

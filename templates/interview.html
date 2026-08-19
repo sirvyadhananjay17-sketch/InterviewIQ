@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow-sm p-4">
+            <h3 class="fw-bold mb-3">AI Mock Interview Room</h3>
+            <form action="/evaluate-interview/{{ session_id }}" method="POST">
+                {% for question in questions %}
+                <div class="mb-4">
+                    <label class="form-label fw-bold">Q{{ loop.index }}: {{ question }}</label>
+                    <textarea id="answer_{{ loop.index0 }}" name="answer_{{ loop.index0 }}" class="form-control mb-2" rows="3" required placeholder="Type your answer or use voice input..."></textarea>
+                    
+                    <!-- Voice Input Button & Status for each question -->
+                    <div class="d-flex align-items-center gap-2">
+                        <button type="button" id="micBtn_{{ loop.index0 }}" class="btn btn-sm btn-outline-danger" onclick="toggleRecording('{{ loop.index0 }}')">
+                            🎙️ Record Answer
+                        </button>
+                        <span id="recordingStatus_{{ loop.index0 }}" class="badge bg-secondary">Idle</span>
+                    </div>
+                </div>
+                {% endfor %}
+                <button type="submit" class="btn btn-success w-100">Submit Answers for AI Evaluation</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    let activeRecognition = null;
+    let activeIndex = null;
+
+    function toggleRecording(index) {
+        if (activeIndex === index && activeRecognition) {
+            stopRecording(index);
+            return;
+        }
+
+        if (activeRecognition) {
+            stopRecording(activeIndex);
+        }
+
+        if (!('SpeechRecognition' in window || 'webkitSpeechRecognition' in window)) {
+            alert('Web Speech API is not supported in this browser. Please use Google Chrome or Microsoft Edge.');
+            return;
+        }
+
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        activeRecognition = new SpeechRecognition();
+        activeRecognition.continuous = true;
+        activeRecognition.interimResults = true;
+        activeRecognition.lang = 'en-US';
+
+        const textarea = document.getElementById(`answer_${index}`);
+
+        activeRecognition.onresult = (event) => {
+            let transcript = '';
+            for (let i = event.resultIndex; i < event.results.length; i++) {
+                transcript += event.results[i][0].transcript;
+            }
+            textarea.value = transcript;
+        };
+
+        activeRecognition.onerror = (event) => {
+            console.error('Speech recognition error:', event.error);
+            stopRecording(index);
+            alert('Microphone error: ' + event.error);
+        };
+
+        activeRecognition.onend = () => {
+            stopRecording(index);
+        };
+
+        activeRecognition.start();
+        activeIndex = index;
+
+        const btn = document.getElementById(`micBtn_${index}`);
+        const status = document.getElementById(`recordingStatus_${index}`);
+
+        btn.classList.replace('btn-outline-danger', 'btn-danger');
+        btn.innerText = '⏹️ Stop Recording';
+        status.classList.replace('bg-secondary', 'bg-danger');
+        status.innerText = 'Listening...';
+    }
+
+    function stopRecording(index) {
+        if (activeRecognition) {
+            activeRecognition.stop();
+            activeRecognition = null;
+        }
+        activeIndex = null;
+
+        const btn = document.getElementById(`micBtn_${index}`);
+        const status = document.getElementById(`recordingStatus_${index}`);
+
+        if (btn && status) {
+            btn.classList.replace('btn-danger', 'btn-outline-danger');
+            btn.innerText = '🎙️ Record Answer';
+            status.classList.replace('bg-danger', 'bg-secondary');
+            status.innerText = 'Idle';
+        }
+    }
+</script>
+{% endblock %}
